@@ -63,8 +63,7 @@ module eutb;
         dataMemoryData = 8'hAB;      //LOAD 
         #10;
 
-        opcode = 4'b0101;
-        dataMemoryData = 8'hAB;      //STORE 
+        opcode = 4'b0101;     //STORE 
         #10;  
         reset = 0;
         $stop; 

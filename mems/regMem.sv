@@ -10,7 +10,7 @@ module regMem(
     output reg [7:0] operand_b        // Data output for operand B
 );
 
-    // 8 x 8-bit register memory
+    // 8 x 8-bit register memory`
     reg [7:0] registers [7:0];        
 
 

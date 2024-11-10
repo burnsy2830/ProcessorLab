@@ -1,33 +1,28 @@
 module iu (
     input wire clk,                   
     input wire reset,                
-    input wire write_enable,           
-    input wire [4:0] write_address,   
-    input wire [12:0] write_data,      
     output wire [12:0] ir_out          
 );
 
-//This module is the F part of the F D X M W cycle. 
+// This module represents the F stage in the F-D-X-M-W pipeline cycle.
 
-   
-    wire [4:0] pc_address;            
-    wire [12:0] fetched_instruction;   
+    wire [4:0] pc_address;             // Program counter address
+    wire [12:0] fetched_instruction;   // Instruction fetched from instMem
 
-    // Instantiate PC 
+    // Instantiate PC module
     pc PC (
         .clk(clk),
         .rst(reset),
-        .pc(pc_address)               
+        .pc(pc_address)                // Program counter output address
     );
 
-    // Instanciate IM 
+    // Instantiate instMem with pc_address for instruction fetching
     instMem IM (
         .clk(clk),
-        .address(write_enable ? write_address : pc_address), 
-        .data_in(write_data),         
-        .write_enable(write_enable),  
-        .instruction(fetched_instruction) 
+        .address(pc_address),          // Only use the program counter for addressing
+        .instruction(fetched_instruction)  // Fetched instruction output
     );
 
-    assign ir_out = fetched_instruction; // Used to display the current instruction
+    assign ir_out = fetched_instruction;  // Output the fetched instruction
+
 endmodule
