@@ -13,10 +13,9 @@ module iu (
     pc PC (
         .clk(clk),
         .rst(reset),
-        .pc(pc_address)                // Program counter output address
+        .pc(pc_address)                
     );
 
-    // Instantiate instMem with pc_address for instruction fetching
     instMem IM (
         .clk(clk),
         .address(pc_address),          // Only use the program counter for addressing

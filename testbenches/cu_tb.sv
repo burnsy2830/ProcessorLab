@@ -14,7 +14,7 @@ module cu_tb;
     cu dut (
         .instIn(instIn),
         .opcode(opcode),
-        .adrr(adrr),
+        .adrr(dmaddr),
         .operanda(operanda),
         .operandb(operandb),
         .dest(dest)

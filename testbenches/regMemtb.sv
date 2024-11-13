@@ -24,16 +24,12 @@ module regMem_tb;
         .operand_b(operand_b)
     );
 
-   
     initial begin
         clk = 0;
         forever #5 clk = ~clk; // 10ns clock period
     end
 
     initial begin
-
-
-     
         reset = 1;
         write = 0;
         opA = 3'b000;
@@ -58,12 +54,10 @@ module regMem_tb;
         opB = 3'b101;
         #10;
        
-
         opA = 3'b110;
         opB = 3'b111;
         #10;
      
-
         // Write new data to register 3
         reset = 0;
         write = 1;
@@ -71,13 +65,9 @@ module regMem_tb;
         dataIn = 8'h0A; 
         #10 write = 0;
 
-     
         opA = 3'b011;
         opB = 3'b011;
         #10;
-    
-
-     
         $stop;
     end
 

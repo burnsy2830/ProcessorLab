@@ -5,9 +5,10 @@ module eu (
     input wire [2:0] opBAder,                // Address for operand B
     input wire [3:0] opcode,                 // Operation code from CU
     input wire [2:0] dest_reg,               // Destination register address from CU
+    input wire [3:0] storeDataAdr,           // 4 bit store address 
     output wire [2:0] opAsendAdr,            // Output address for operand A
     output wire [2:0] opBsendAdr,            // Output address for operand B
-    output wire [2:0] destReg,               // Destination register to be used in Register Memory
+    output wire [3:0] storeDataAdrOut,       // Destination register to be used in Register Memory
     input wire [7:0] operandA,               // Data for operand A from Register Memory
     input wire [7:0] operandB,               // Data for operand B from Register Memory
     input wire [7:0] data_memory_data,       // Data fetched from Data Memory (for load operations)
@@ -20,7 +21,7 @@ module eu (
     // Signal for ALU result
     wire [7:0] alu_result;
 
-
+    assign storeDataAdrOut = (opcode == 4'b1111) ? storeDataAdr : 4'b0000;
     assign opAsendAdr = opAAdr;
     assign opBsendAdr = opBAder;
     assign destReg = dest_reg;
@@ -41,13 +42,13 @@ module eu (
             store_data <= 8'b0;
         end else begin
             case (opcode)
-                4'b0100: begin  // Load operation
+                4'b1110: begin  // Load operation
                     write_enable <= 1;                    // write back to reg memory 
                     data_memory_write_enable <= 0;        // dont write to data memory 
                     result <= data_memory_data;           // Load value from data memory 
                 end
 
-                4'b0101: begin  // Store operation
+                4'b1111: begin  // Store operation
                     write_enable <= 0;                    // no writing for reg memory 
                     data_memory_write_enable <= 1;        // write to data memory 
                     store_data <= operandA;               // store opA 
