@@ -1,14 +1,14 @@
 module alu_tb;
 
-    // Inputs to the ALU
+    
     reg [3:0] opcode;
     reg [7:0] operandA;
     reg [7:0] operandB;
 
-    // Output from the ALU
+  
     wire [7:0] result;
 
-    // Instantiate the ALU module
+
     alu uut (
         .opcode(opcode),
         .operandA(operandA),

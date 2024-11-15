@@ -38,7 +38,7 @@ module regMem_tb;
         dataIn = 8'b00000000;
         #10 reset = 0;
 
-        // Check initial values after reset
+    
      
         opA = 3'b000;
         opB = 3'b001;
@@ -61,7 +61,7 @@ module regMem_tb;
         // Write new data to register 3
         reset = 0;
         write = 1;
-        wR = 3'b011; // Register 3
+        wR = 3'b011; 
         dataIn = 8'h0A; 
         #10 write = 0;
 

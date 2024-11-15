@@ -15,7 +15,7 @@ module regMem(
 
 
 
-    // Synchronous reset and write operation
+  
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             registers[0] <= 8'h00;
