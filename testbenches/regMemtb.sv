@@ -71,4 +71,10 @@ module regMem_tb;
         $stop;
     end
 
+
+     initial begin
+        $monitor("clk=%b, reset=%b, write=%b, opA=%b, opB=%b, wR=%b, dataIn=%h | operand_a=%h, operand_b=%h", 
+                 clk, reset, write, opA, opB, wR, dataIn, operand_a, operand_b);
+    end
+
 endmodule

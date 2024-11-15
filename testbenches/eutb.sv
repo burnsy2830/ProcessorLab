@@ -63,8 +63,12 @@ module eutb;
         data_memory_data = 8'h00;  
         #10;
 
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
         opcode = 4'b1110;            // LOAD operation
-        data_memory_data = 8'hAB;   
+        data_memory_data = 8'hAB; 
+
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);  
         #10;
 
 
@@ -72,9 +76,87 @@ module eutb;
         storeDataAdr = 4'b1010;
         opcode = 4'b1111;            // STORE operation
         #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
         
-        reset = 1;                   
+                 
         #10;
+        
+
+        //Test 3: SUB
+        opcode = 4'b0010;
+        operandA = 8'h05;
+        operandB = 8'h03;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+      
+        // Test 4: AND
+        opcode = 4'b0011;
+        operandA = 8'h0F;
+        operandB = 8'hF0;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 5: OR
+        opcode = 4'b0100;
+        operandA = 8'h0F;
+        operandB = 8'hF0;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 6: XOR
+        opcode = 4'b0101;
+        operandA = 8'h0F;
+        operandB = 8'hF0;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 7: INC
+        opcode = 4'b0110;
+        operandA = 8'h05;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 8: DEC
+        opcode = 4'b0111;
+        operandA = 8'h05;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 9: NOT
+        opcode = 4'b1000;
+        operandA = 8'hAA;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 10: NEG
+        opcode = 4'b1001;
+        operandA = 8'h05;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 11: SHR (Shift Right)
+        opcode = 4'b1010;
+        operandA = 8'hAA;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 12: SHL (Shift Left)
+        opcode = 4'b1011;
+        operandA = 8'hAA;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 13: ROR (Rotate Right)
+        opcode = 4'b1100;
+        operandA = 8'hAA;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
+
+        // Test 14: ROL (Rotate Left)
+        opcode = 4'b1101;
+        operandA = 8'hAA;
+        #10;
+        $display("reset = %b, opcode = %h, operandA = %h, operandB = %h, result = %h", reset, opcode, operandA, operandB, result);
         $stop;                       
     end 
 endmodule

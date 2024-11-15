@@ -1,12 +1,14 @@
 module iu (
     input wire clk,                   
-    input wire reset,                
+    input wire reset,
+    output wire [4:0]pcOut, // for the report, it is required to display PC out.                
     output wire [12:0] ir_out          
 );
 
 // This module represents the F stage in the F-D-X-M-W pipeline cycle.
 
     wire [4:0] pc_address;             // Program counter address
+   
     wire [12:0] fetched_instruction;   // Instruction fetched from instMem
 
     // Instantiate PC module
@@ -23,5 +25,6 @@ module iu (
     );
 
     assign ir_out = fetched_instruction;  // Output the fetched instruction
+    assign pcOut = pc_address;
 
 endmodule
