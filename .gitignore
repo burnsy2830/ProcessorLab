@@ -1,4 +1,3 @@
-# Ignore compiled and temporary files
 *.cr.mti
 *.mpf
 *.wlf
@@ -6,25 +5,24 @@
 tcl_stacktrace.txt
 transcript
 
-# Ignore work directories and temporary folders
+
 work/
 .vscode/
 .vscode/
 .dist/
 garbage/
 
-# Ignore specific wlf temporary files
 wlft*
 
-# Ignore any hidden system files (e.g., DS_Store for macOS)
+
 .DS_Store
 
-# Ignore backup files
+
 *.bak
 *.swp
 *~
 
-# Keep relevant source and project files
+
 !processor.sv
 !testbenches/
 !CU/
