@@ -3,17 +3,30 @@ module regMem(
     input wire write,                 // Write enable signal
     input wire reset,                 // Reset signal to initialize all registers
     input wire [2:0] opA,             // 3-bit address for reading operand A
+    input wire [3:0] dmaddr,
+    input wire [2:0] dest,
+    input wire [3:0] opcode,
     input wire [2:0] opB,             // 3-bit address for reading operand B
     input wire [2:0] wR,              // 3-bit address for writing data
     input wire [7:0] dataIn,          // Data to be written to the register file
     output reg [7:0] operand_a,       // Data output for operand A
-    output reg [7:0] operand_b        // Data output for operand B
+    output reg [7:0] operand_b,        // Data output for operand B
+    output wire [2:0] adderAO,
+    output wire [2:0] adderBO,
+    output wire [3:0] dmaddrO,
+    output wire [2:0] destO,
+    output wire [3:0] opcodeO
 );
 
     // 8 x 8-bit register memory`
     reg [7:0] registers [7:0];        
 
 
+    assign adderAO = opA;
+    assign adderBO = opB;
+    assign dmaddrO = dmaddr;
+    assign destO = dest;
+    assign opcodeO = opcode;
 
   
     always @(posedge clk or posedge reset) begin

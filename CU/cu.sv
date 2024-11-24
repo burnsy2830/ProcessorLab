@@ -13,8 +13,10 @@ module cu(
     // Extract the opcode from the 13-bit instruction
     assign opcode = instIn[12:9]; 
 
+    assign dmaddr = (opcode == 4'b1111) ? instIn[8:5] : 4'b0000; 
 
-    assign adrr = (opcode == 4'b1111) ? instIn[8:5] : 4'b0000; 
+
+    assign adrr = instIn[2:0];
 
     assign operanda = (opcode != 4'b1110 && opcode != 4'b1111) ? instIn[8:6] : 3'b000;
     assign operandb = (opcode != 4'b1110 && opcode != 4'b1111) ? instIn[5:3] : 3'b000;

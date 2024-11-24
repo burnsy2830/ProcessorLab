@@ -1,58 +1,127 @@
-module mProcessor(
+module processor (
     input wire clk,
-    input wire reset,
-    input wire write_enable,              // For testing purposes
-    input wire [4:0] write_address,       // Address for instruction write
-    input wire [12:0] write_data          // Data for instruction write
+    input wire reset
 );
 
-    wire [4:0] pc_address;
-    wire [12:0] instruction;
+
+    //-------------IU signals-----------
+    wire [4:0] pc_address; // for PC
+    wire [12:0] fetched_instruction; // for CU 
+    //---------------------------
+
+
+    //-------------CU signals----------
     wire [3:0] opcode;
-    wire [3:0] addr;
-    wire [2:0] operand_a;
-    wire [2:0] operand_b;
-    wire [2:0] dest;
-    wire [7:0] operandA_data;
-    wire [7:0] operandB_data;
-    wire [7:0] alu_result;
-    wire zero_flag;
-    wire carry_flag
+    wire [2:0] operand_a_addr; // REGISTER MEM 
+    wire [2:0] operand_b_addr; // REGISTER MEM
+    wire [2:0] dest_reg; // REGISTER MEMORY ADDRESS DEST 
+    wire [3:0] dm_addr;  //DATA MEMORY ADDRESS 
+    //------------------------------------
+
+    //-----------Register memory signals---
+    wire write_enable;
+    reg [7:0] value_opA;
+    reg [7:0] value_opb;
+    wire [7:0] pass_to_euA;
+    wire [7:0] pass_to_euB;
+
+    assign pass_to_euA = value_opA;
+    assign pass_to_euB = value_opB;
+    //---------------------------------------
+
+    //-----EU signals-----------
+    wire [7:0] store_data;
+    wire [7:0] store_dataOUT;  
+    wire [7:0] data_memory_data;
 
 
-    // Instantiate Instruction Unit (IU)
+
+
+    //-------------------------------
+
+
+    //--------Data memory Signals---
+    reg [7:0] read_data;
+    wire[7:0] read_data_wire;
+    assign read_data_wire = read_data;
+
+
+    //-----------------------------
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
     iu IU (
         .clk(clk),
         .reset(reset),
-        .write_enable(write_enable),
-        .write_address(write_address),
-        .write_data(write_data),
-        .ir_out(instruction)               // Output the instruction
+        .pcOut(pc_address),
+        .ir_out(fetched_instruction)
     );
-
 
 
     cu CU (
-        .instIn(instruction),              // Connect instruction output from IU
+        .instIn(fetched_instruction),
         .opcode(opcode),
-        .adrr(addr),
-        .operanda(operand_a),
-        .operandb(operand_b),
-        .dest(dest)
+        .operanda(operand_a_addr),
+        .operandb(operand_b_addr),
+        .dmaddr(dm_addr),
+        .dest(dest_reg)
+    );
+
+      regMem REG_MEM (
+        .clk(clk),
+        .write(write_enable),
+        .reset(reset),
+        .opA(operand_a_addr),
+        .opB(operand_b_addr),
+        .wR(dest_reg),
+        .dataIn(),
+        .operand_a(value_opA),
+        .operand_b(value_opB)
     );
 
 
 
-    regMem REG_MEM (
+    data_memory DM (
         .clk(clk),
-        .write(1'b0),                      // Write enable logic can be added here
         .reset(reset),
-        .opA(operand_a),                   // Connect CU outputs for operand addresses
-        .opB(operand_b),
-        .wR(dest),                         // Connect CU destination register
-        .dataIn(alu_result),               // ALU result to write back to register
-        .operand_a(operandA_data),         // Outputs for ALU operands
-        .operand_b(operandB_data)
+        .write_enable(data_memory_write_enable),
+        .address(dm_addr),
+        .write_data(store_data),
+        .read_data(read_data)
+    );
+
+
+
+     eu EU (
+        .clk(clk),
+        .reset(reset),
+        .opAAdr(operand_a_addr),
+        .opBAder(operand_b_addr),
+        .opcode(opcode),
+        .dest_reg(dest_reg),
+        .storeDataAdr(dm_addr),
+        .opAsendAdr(operand_a_addr),
+        .opBsendAdr(operand_b_addr),
+        .storeDataAdrOut(store_dataOUT),
+        .operandA(value_opA),    // Connect operand A from regMem
+        .operandB(value_opB),    // Connect operand B from regMem
+        .data_memory_data(data_memory_data),
+        .result(alu_result),
+        .write_enable(write_enable),
+        .store_data(store_data),
+        .data_memory_write_enable(data_memory_write_enable)
     );
 
 
