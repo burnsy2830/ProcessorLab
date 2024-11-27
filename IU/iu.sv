@@ -1,30 +1,40 @@
 module iu (
-    input wire clk,                   
+    input wire clk,
     input wire reset,
-    output wire [4:0]pcOut, // for the report, it is required to display PC out.                
-    output wire [12:0] ir_out          
+    input wire ce,
+    output wire [4:0] pcOut,
+    output wire [12:0] ir_out
 );
 
-// This module represents the F stage in the F-D-X-M-W pipeline cycle.
+    reg [4:0] pc_address_reg;
+    reg [12:0] fetched_instruction_reg;
 
-    wire [4:0] pc_address;             // Program counter address
-   
-    wire [12:0] fetched_instruction;   // Instruction fetched from instMem
+    wire [4:0] pc_address;
+    wire [12:0] fetched_instruction;
 
-    // Instantiate PC module
+    assign pcOut = pc_address_reg;
+    assign ir_out = fetched_instruction_reg;
+
     pc PC (
         .clk(clk),
+        .ce(ce),
         .rst(reset),
-        .pc(pc_address)                
+        .pc(pc_address)
     );
 
     instMem IM (
         .clk(clk),
-        .address(pc_address),          // Only use the program counter for addressing
-        .instruction(fetched_instruction)  // Fetched instruction output
+        .address(pc_address),
+        .instruction(fetched_instruction)
     );
 
-    assign ir_out = fetched_instruction;  // Output the fetched instruction
-    assign pcOut = pc_address;
-
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            pc_address_reg <= 5'b0;
+            fetched_instruction_reg <= 13'b0;
+        end else begin
+            pc_address_reg <= pc_address;
+            fetched_instruction_reg <= fetched_instruction;
+        end
+    end
 endmodule

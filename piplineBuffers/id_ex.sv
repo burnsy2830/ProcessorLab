@@ -3,7 +3,7 @@ module id_ex(
     input wire rst,               // Reset signal
     input wire [3:0] opcode,      // 4-bit opcode input
     input wire [2:0] operanda,    // 3-bit operand a input
-    input wire [2:0] operandb,    // 3-bit operand a input
+    input wire [2:0] operandb,    // 3-bit operand b input
     input wire [3:0] dmaddr,      // 4-bit data memory address input
     input wire [2:0] dest,        // 3-bit destination input
     input wire [7:0] opAdata,     // 8-bit operand A data input
@@ -15,19 +15,19 @@ module id_ex(
     output reg [3:0] prev_dmaddr,   // 4-bit output of previous dmaddr
     output reg [2:0] prev_dest,     // 3-bit output of previous dest
     output reg [7:0] prev_opAdata,  // 8-bit output of previous operand A data
-    output reg [7:0] prev_opBdata   // 8-bit output of previous operand B data
+    output reg [7:0] prev_opBdata,  // 8-bit output of previous operand B data
+    output reg [3:0] curr_opcode,   // 4-bit output of current opcode
+    output reg [2:0] curr_operanda, // 3-bit output of current operanda
+    output reg [2:0] curr_operandb, // 3-bit output of current operandb
+    output reg [3:0] curr_dmaddr,   // 4-bit output of current dmaddr
+    output reg [2:0] curr_dest,     // 3-bit output of current dest
+    output reg [7:0] curr_opAdata,  // 8-bit output of current operand A data
+    output reg [7:0] curr_opBdata   // 8-bit output of current operand B data
 );
-
-    reg [3:0] curr_opcode;
-    reg [2:0] curr_operanda;
-    reg [2:0] curr_operandb;
-    reg [3:0] curr_dmaddr;
-    reg [2:0] curr_dest;
-    reg [7:0] curr_opAdata;
-    reg [7:0] curr_opBdata;
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
+            // Reset all registers to zero
             prev_opcode <= 4'b0;
             prev_operanda <= 3'b0;
             prev_operandb <= 3'b0;
@@ -43,6 +43,7 @@ module id_ex(
             curr_opAdata <= 8'b0;
             curr_opBdata <= 8'b0;
         end else begin
+            // Update `prev_*` with the current values
             prev_opcode <= curr_opcode;
             prev_operanda <= curr_operanda;
             prev_operandb <= curr_operandb;
@@ -51,6 +52,7 @@ module id_ex(
             prev_opAdata <= curr_opAdata;
             prev_opBdata <= curr_opBdata;
 
+            // Update `curr_*` with the input values
             curr_opcode <= opcode;
             curr_operanda <= operanda;
             curr_operandb <= operandb;

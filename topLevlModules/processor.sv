@@ -1,6 +1,7 @@
 module processor (
     input wire clk,
-    input wire reset
+    input wire reset,
+    input wire ce
 );
 
 //----------S0 Connections--------------
@@ -85,7 +86,8 @@ module processor (
 // Instruction Unit
 iu iu (
     .clk(clk),                
-    .reset(reset),            
+    .reset(reset),
+    .ce(ce),            
     .pcOut(pcOutS0),          
     .ir_out(ir_outS0)         
 );
@@ -162,7 +164,7 @@ eu eu (
     .clk(clk),                             
     .reset(reset),                         
     .opAAdr(opAS4),                        
-    .opBAdr(opBS4),                        // Corrected typo
+    .opBAdr(opBS4),                       
     .opcode(opcodeS4),                     
     .dest_reg(addrS4),                     
     .storeDataAdr(dmaddrS4),               
@@ -214,7 +216,7 @@ data_memory data_memory (
     .write_data(storeDataS6),   
     .regWEO(writeEnS7),         
     .read_data(readDataS7),     
-    .opAaddrOut(opAS7),         // Added missing connection
+    .opAaddrOut(opAS7),         
     .destReg(addrS7)            
 );
 

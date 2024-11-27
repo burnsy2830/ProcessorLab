@@ -1,71 +1,64 @@
-module ex_mem(
-    input wire clk,
-    input wire rst,
-    input wire [3:0] storeDataAdrOut,
-    input wire [7:0] result,
-    input wire [2:0] opAAdr,
-    input wire [3:0] opcode,
-    input wire regWE,
-    input wire data_memory_write_enable,
-    input wire [7:0] load_result,
-    input wire [2:0] dest_reg,         // New input: Destination register
+module id_ex(
+    input wire clk,               // Clock signal
+    input wire rst,               // Reset signal
+    input wire [3:0] opcode,      // 4-bit opcode input
+    input wire [2:0] operanda,    // 3-bit operand a input
+    input wire [2:0] operandb,    // 3-bit operand b input
+    input wire [3:0] dmaddr,      // 4-bit data memory address input
+    input wire [2:0] dest,        // 3-bit destination input
+    input wire [7:0] opAdata,     // 8-bit operand A data input
+    input wire [7:0] opBdata,     // 8-bit operand B data input,
 
-    output reg [3:0] prev_storeDataAdrOut,
-    output reg [7:0] prev_result,
-    output reg [2:0] prev_opAAdr,
-    output reg [3:0] prev_opcode,
-    output reg prev_regWE,
-    output reg prev_data_memory_write_enable,
-    output reg [7:0] prev_load_result,
-    output reg [2:0] prev_dest_reg     // New output: Previous destination register
+    output reg [3:0] prev_opcode,    // 4-bit output of previous opcode
+    output reg [2:0] prev_operanda,  // 3-bit output of previous operanda
+    output reg [2:0] prev_operandb,  // 3-bit output of previous operandb
+    output reg [3:0] prev_dmaddr,    // 4-bit output of previous dmaddr
+    output reg [2:0] prev_dest,      // 3-bit output of previous dest
+    output reg [7:0] prev_opAdata,   // 8-bit output of previous operand A data
+    output reg [7:0] prev_opBdata,   // 8-bit output of previous operand B data
+    output reg [3:0] curr_opcode,    // 4-bit output of current opcode
+    output reg [2:0] curr_operanda,  // 3-bit output of current operanda
+    output reg [2:0] curr_operandb,  // 3-bit output of current operandb
+    output reg [3:0] curr_dmaddr,    // 4-bit output of current dmaddr
+    output reg [2:0] curr_dest,      // 3-bit output of current dest
+    output reg [7:0] curr_opAdata,   // 8-bit output of current operand A data
+    output reg [7:0] curr_opBdata    // 8-bit output of current operand B data
 );
-
-    reg [3:0] curr_storeDataAdrOut;
-    reg [7:0] curr_result;
-    reg [2:0] curr_opAAdr;
-    reg [3:0] curr_opcode;
-    reg curr_regWE;
-    reg curr_data_memory_write_enable;
-    reg [7:0] curr_load_result;
-    reg [2:0] curr_dest_reg;          // Internal register for destination register
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            prev_storeDataAdrOut <= 4'b0;
-            prev_result <= 8'b0;
-            prev_opAAdr <= 3'b0;
+            // Reset all registers to zero
             prev_opcode <= 4'b0;
-            prev_regWE <= 1'b0;
-            prev_data_memory_write_enable <= 1'b0;
-            prev_load_result <= 8'b0;
-            prev_dest_reg <= 3'b0;
-
-            curr_storeDataAdrOut <= 4'b0;
-            curr_result <= 8'b0;
-            curr_opAAdr <= 3'b0;
+            prev_operanda <= 3'b0;
+            prev_operandb <= 3'b0;
+            prev_dmaddr <= 4'b0;
+            prev_dest <= 3'b0;
+            prev_opAdata <= 8'b0;
+            prev_opBdata <= 8'b0;
             curr_opcode <= 4'b0;
-            curr_regWE <= 1'b0;
-            curr_data_memory_write_enable <= 1'b0;
-            curr_load_result <= 8'b0;
-            curr_dest_reg <= 3'b0;
+            curr_operanda <= 3'b0;
+            curr_operandb <= 3'b0;
+            curr_dmaddr <= 4'b0;
+            curr_dest <= 3'b0;
+            curr_opAdata <= 8'b0;
+            curr_opBdata <= 8'b0;
         end else begin
-            prev_storeDataAdrOut <= curr_storeDataAdrOut;
-            prev_result <= curr_result;
-            prev_opAAdr <= curr_opAAdr;
+         
             prev_opcode <= curr_opcode;
-            prev_regWE <= curr_regWE;
-            prev_data_memory_write_enable <= curr_data_memory_write_enable;
-            prev_load_result <= curr_load_result;
-            prev_dest_reg <= curr_dest_reg;
+            prev_operanda <= curr_operanda;
+            prev_operandb <= curr_operandb;
+            prev_dmaddr <= curr_dmaddr;
+            prev_dest <= curr_dest;
+            prev_opAdata <= curr_opAdata;
+            prev_opBdata <= curr_opBdata;
 
-            curr_storeDataAdrOut <= storeDataAdrOut;
-            curr_result <= result;
-            curr_opAAdr <= opAAdr;
             curr_opcode <= opcode;
-            curr_regWE <= regWE;
-            curr_data_memory_write_enable <= data_memory_write_enable;
-            curr_load_result <= load_result;
-            curr_dest_reg <= dest_reg;  // Update current destination register
+            curr_operanda <= operanda;
+            curr_operandb <= operandb;
+            curr_dmaddr <= dmaddr;
+            curr_dest <= dest;
+            curr_opAdata <= opAdata;
+            curr_opBdata <= opBdata;
         end
     end
 endmodule

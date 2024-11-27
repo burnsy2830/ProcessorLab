@@ -1,7 +1,7 @@
 module instMem (
     input wire clk,                   
-    input wire [4:0] address,          // Address for fetching instructions
-    output wire [12:0] instruction     // Fetched instruction 
+    input wire [4:0] address,          
+    output wire [12:0] instruction     
 );
 
     // Define memory with 32 13-bit registers
@@ -14,6 +14,8 @@ module instMem (
             memory[i] = 13'b0;  
         end
 
+
+        //memory[00] = 13'b0001011000101;  -> custom instruction for demonstration purposes;
         memory[00] = 13'h1c00;
         memory[01] = 13'h1c11;
         memory[02] = 13'h1c22;

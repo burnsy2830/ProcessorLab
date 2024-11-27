@@ -21,7 +21,7 @@ module if_id(
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            // Reset all registers to 0
+            // Reset all registers to zero
             prev_opcode <= 4'b0;
             prev_operanda <= 3'b0;
             prev_operandb <= 3'b0;
@@ -33,14 +33,14 @@ module if_id(
             curr_dmaddr <= 4'b0;
             curr_dest <= 3'b0;
         end else begin
-            // WRITE TO OUTPUTS!! 
+            // Update `prev_*` with current values of `curr_*`
             prev_opcode <= curr_opcode;
             prev_operanda <= curr_operanda;
             prev_operandb <= curr_operandb;
             prev_dmaddr <= curr_dmaddr;
             prev_dest <= curr_dest;
 
-            //READ CURRENT INPUTS!! 
+            // Update `curr_*` with input values
             curr_opcode <= opcode;
             curr_operanda <= operanda;
             curr_operandb <= operandb;
