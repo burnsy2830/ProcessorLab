@@ -27,7 +27,7 @@ module id_ex(
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            // Reset all registers to zero
+        
             prev_opcode <= 4'b0;
             prev_operanda <= 3'b0;
             prev_operandb <= 3'b0;
@@ -43,7 +43,7 @@ module id_ex(
             curr_opAdata <= 8'b0;
             curr_opBdata <= 8'b0;
         end else begin
-            // Update `prev_*` with the current values
+         
             prev_opcode <= curr_opcode;
             prev_operanda <= curr_operanda;
             prev_operandb <= curr_operandb;
@@ -52,7 +52,7 @@ module id_ex(
             prev_opAdata <= curr_opAdata;
             prev_opBdata <= curr_opBdata;
 
-            // Update `curr_*` with the input values
+        
             curr_opcode <= opcode;
             curr_operanda <= operanda;
             curr_operandb <= operandb;

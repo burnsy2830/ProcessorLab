@@ -27,7 +27,7 @@ module id_ex(
 
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            // Reset all registers to zero
+           
             prev_opcode <= 4'b0;
             prev_operanda <= 3'b0;
             prev_operandb <= 3'b0;
